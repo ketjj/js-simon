@@ -25,9 +25,24 @@ main {
   border-radius: 20px;
   background-color: aliceblue;
 }
+h4{
+  font-size: 30px;
+  color: rgb(13, 36, 86);
+}
+h5{
+  margin-bottom: 30px;
+  color: rgb(13, 36, 86);
+}
+.red{
+  color:rgb(225, 32, 32);
+  font-weight: 600;
+}
+.kbtn{
+  height: 40px;
+  padding: 5px 20px;
+  border-radius: 20px;
+  margin-top: 30px;
 
-button{
-  height: 50px;
 }
 
 .hide {
