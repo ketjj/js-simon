@@ -25,6 +25,24 @@ main {
   border-radius: 20px;
   background-color: aliceblue;
 }
+.box2{
+  width: 90px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  border-radius: 20px;
+  background-color: rgb(246, 126, 182);
+}
+
+.text {
+  font-size: 18px;
+  color:rgb(13, 36, 86);
+  font-weight: 500;
+}
+
+
 h4{
   font-size: 30px;
   color: rgb(13, 36, 86);

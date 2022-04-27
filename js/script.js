@@ -4,37 +4,91 @@
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 
 
-const container = document.getElementById('upper');
-const grids = createBoxes();
 
-let printNumbers = [];
+
+
+const numGuessArray = [];
+console.log(numGuessArray);
+
+let insertNumbers = [];
+
+const correctNumbers = [];
+
+const container = document.getElementById('upper');
+const lowerContainer = document.getElementById('lower');
+const grids = createBoxes();
+const grids2 = createBoxes2();
+
+
 // CREARE GRID
 
 function createBoxes(){
   for(let i = 0; i < 5; i++){
     createElement();
+   
   }
 }
+function createBoxes2(){
+  for(let i = 0; i < 5; i++){
+    userNumber();  
+  }
+}
+
 
 function createElement(){
   const box = document.createElement('div');
   box.className = 'box';
-  box.innerHTML = getRandomNumber(1, 50);
+  const boxText = document.createElement('span');
+  box.append(boxText);
+  boxText.innerHTML = getRandomNumber(1, 50);
+  boxText.className ='text';
+  
   container.append(box);
-  console.log(box.innerText);
+  console.log(boxText.innerText);
+  insertNumbers = [];
 
-  let printNumbers = [];
-
-  let flag = false;
-  while (!flag)
-  if (!printNumbers.includes(box.innerText)) {
-    printNumbers.push(parseInt(box.innerText));
-    flag = true;
-  }else{
-    printNumbers.innerText = generateRandomNumber(1, 50);
+  let f = false;
+  while(!f)
+  if(!insertNumbers.includes(boxText.innerText)) {
+    insertNumbers.push(parseInt(boxText.innerText));
+    f = true;
+  } else{
+    boxText.innerText = generateRandomNumber(1, 50);
   }
 }
 
+
+function userNumber(number) {
+  const box = document.createElement('div');
+  box.className = 'box2'
+  const boxText = document.createElement('span');
+  box.append(boxText);
+  // boxText.innerHTML = numGuessArray;
+  boxText.className ='text';
+
+  if(insertNumbers.includes(number)){
+    sameAnswer++;
+    // box.classList.add('green');
+    correctNumbers.push(number);
+  }
+  userNumber.innerText = number;
+  lowerContainer.append(box);
+ 
+}
+
+//SCORE 
+let sameAnswer = 0;
+
+function score() {
+  if (sameAnswer === 1) {
+  }else if ((sameAnswer > 1) && (sameAnswer < 5)) {
+
+  }else if (sameAnswer === 5) {
+    
+  }else{
+    // document.getElementById('result-msg').innerHTML = `Non hai indovinato nessun numero! Riprova!`
+  }
+}
 
 //SET TIME OUT
 
@@ -47,6 +101,7 @@ function myNumbers(){
 function myStopFunction() {
   clearInterval(myTimeout);
 }
+
 
 // Fare dei controlli ai numeri inseriti dal prompt
 
@@ -63,24 +118,18 @@ function getNumberprompt(){
       insertNumber = prompt('Inserire ' + (i+1) + '° numero memorizzato su 5');
     }
     
-
-    let flag = false;
+    let n = false;
 
     if(!numGuessArray.includes(insertNumber)){
       numGuessArray.push(parseInt(insertNumber));
-      flag = true;
+      n= true;
     }else{
-      flag = false;
+      n = false;
     }
 
     insertNumber = parseInt(insertNumber).value;
-    
   }
 }
-
-// HO generato array prompt
-const numGuessArray = [];
-console.log(numGuessArray);
 
 
 //GEnera i numeri random
