@@ -3,35 +3,31 @@
 // Dopo 5 secondi l’utente deve inserire, uno alla volta, i numeri che ha visto precedentemente, tramite il prompt().
 // Dopo che sono stati inseriti i 5 numeri, il software dice quanti e quali dei numeri da indovinare sono stati individuati.
 
+const insertNumbers = []; // numeri generati random
+console.log(insertNumbers);
 
-
-
-
-const numGuessArray = [];
-console.log(numGuessArray);
-
-let insertNumbers = [];
 
 const correctNumbers = [];
 
+
 const container = document.getElementById('upper');
 const lowerContainer = document.getElementById('lower');
-const grids = createBoxes();
-const grids2 = createBoxes2();
 
+createBoxes();
+
+//SET TIME OUT
+
+
+const myTimeout = setTimeout(getNumberprompt, 6000);
+console.log(numGuessArray, 'numeri inseriti ora');
 
 // CREARE GRID
-
 function createBoxes(){
   for(let i = 0; i < 5; i++){
-    createElement();
-   
+    createElement();   
   }
-}
-function createBoxes2(){
-  for(let i = 0; i < 5; i++){
-    userNumber();  
-  }
+  console.log("Numeri Random Generati: " + insertNumbers)
+  
 }
 
 
@@ -40,68 +36,31 @@ function createElement(){
   box.className = 'box';
   const boxText = document.createElement('span');
   box.append(boxText);
-  boxText.innerHTML = getRandomNumber(1, 50);
   boxText.className ='text';
-  
   container.append(box);
-  console.log(boxText.innerText);
-  insertNumbers = [];
+  
+  const myTimeToHide = setTimeout(hideNumbers, 5000);
+  
+  function hideNumbers(){
+    boxText.classList.add('hide'); 
+  }
+  let randomNumber = getRandomNumber(1, 50)
+  
 
+  
   let f = false;
   while(!f)
-  if(!insertNumbers.includes(boxText.innerText)) {
-    insertNumbers.push(parseInt(boxText.innerText));
+  {
+  if(!insertNumbers.includes(randomNumber)) {
+    insertNumbers.push(randomNumber);
     f = true;
   } else{
-    boxText.innerText = generateRandomNumber(1, 50);
+    randomNumber = getRandomNumber(1, 50);
   }
+} 
+  boxText.innerHTML = randomNumber;
+  
 }
-
-
-function userNumber(number) {
-  const box = document.createElement('div');
-  box.className = 'box2'
-  const boxText = document.createElement('span');
-  box.append(boxText);
-  // boxText.innerHTML = numGuessArray;
-  boxText.className ='text';
-
-  if(insertNumbers.includes(number)){
-    sameAnswer++;
-    // box.classList.add('green');
-    correctNumbers.push(number);
-  }
-  userNumber.innerText = number;
-  lowerContainer.append(box);
- 
-}
-
-//SCORE 
-let sameAnswer = 0;
-
-function score() {
-  if (sameAnswer === 1) {
-  }else if ((sameAnswer > 1) && (sameAnswer < 5)) {
-
-  }else if (sameAnswer === 5) {
-    
-  }else{
-    // document.getElementById('result-msg').innerHTML = `Non hai indovinato nessun numero! Riprova!`
-  }
-}
-
-//SET TIME OUT
-
-const myTimeout = setTimeout(myNumbers, 5000);
-
-function myNumbers(){
-  let insertedNumber = getNumberprompt();
-}
-
-function myStopFunction() {
-  clearInterval(myTimeout);
-}
-
 
 // Fare dei controlli ai numeri inseriti dal prompt
 
@@ -110,25 +69,39 @@ function getNumberprompt(){
   for(let i = 0; i < 5; i++){
     
     let insertNumber = prompt('Inserire ' + (i+1) + '° numero memorizzato su 5');
-
-    numGuessArray.push(insertNumber);
     
     while (isNaN(insertNumber) || (insertNumber > 50)){
       alert('Devi inserire solo un numero da 1 a 50, riprova!');
-      insertNumber = prompt('Inserire ' + (i+1) + '° numero memorizzato su 5');
+      insertNumber = prompt('Inserire ' + (i+1) + '° numero memorizzato su 5');    
     }
+     
+    const box = document.createElement('div');
+    box.className = 'box2'
+    lowerContainer.append(box);
+    const boxText = document.createElement('span');
+    boxText.innerHTML = insertNumber;
+    box.append(boxText);
+
     
-    let n = false;
-
-    if(!numGuessArray.includes(insertNumber)){
-      numGuessArray.push(parseInt(insertNumber));
-      n= true;
-    }else{
-      n = false;
+    if(insertNumbers.includes(parseInt(insertNumber)))
+    {
+      correctNumbers.push(parseInt(insertNumber))
     }
-
-    insertNumber = parseInt(insertNumber).value;
   }
+
+  console.log("array_generato: " + insertNumbers)
+  console.log("array_indovinato: " + correctNumbers)
+  
+  document.getElementById('result-msg').innerHTML = 
+  `
+   Hai indovinato <strong>${correctNumbers.length}</strong> su <strong>${insertNumbers.length}</strong> numeri. <br>
+   I numeri indovinati sono: ${correctNumbers}
+  `;
+
+
+
+
+
 }
 
 
@@ -136,11 +109,4 @@ function getNumberprompt(){
 
 function getRandomNumber(min, max){
   return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-
-document.querySelector('button').addEventListener('click', reset);
-
-function reset(){
-  // box.innerHTML = '';
 }
